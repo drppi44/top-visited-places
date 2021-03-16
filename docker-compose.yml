@@ -1,0 +1,19 @@
+version: '2.2'
+
+volumes:
+  postgisdata:
+    driver: local
+
+services:
+ psql_postgis_db:
+  image: postgis/postgis
+  volumes:
+   - postgisdata:/var/lib/postgresql/data
+  environment:
+   # If you need to create multiple database you can add coma separated databases eg gis,data
+   - POSTGRES_DB=gis
+   - POSTGRES_USER=gis_admin    # Here it's important to keep the same name as the one configured inside ops_settings_docker.yml
+   - POSTGRES_PASSWORD=admin        # Here it's important to keep the same name as the one configured inside ops_settings_docker.yml
+  ports:
+   - "5432:5432"
+  restart: on-failure
